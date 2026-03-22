@@ -1,0 +1,57 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: employee_postgres
+    environment:
+      POSTGRES_DB: employee_db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+    networks:
+      - pipeline_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d employee_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  spark-master:
+    image: apache/spark:3.5.0
+    container_name: spark_master
+    command: /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master
+    environment:
+      - SPARK_MASTER_HOST=spark-master
+    ports:
+      - "8080:8080"
+      - "7077:7077"
+    volumes:
+      - ./scripts:/scripts
+      - ./data:/data
+    networks:
+      - pipeline_net
+
+  spark-worker:
+    image: apache/spark:3.5.0
+    container_name: spark_worker
+    command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
+    environment:
+      - SPARK_WORKER_CORES=2
+      - SPARK_WORKER_MEMORY=2g
+    depends_on:
+      - spark-master
+    volumes:
+      - ./scripts:/scripts
+      - ./data:/data
+    networks:
+      - pipeline_net
+
+volumes:
+  postgres_data:
+
+networks:
+  pipeline_net:
+    driver: bridge
