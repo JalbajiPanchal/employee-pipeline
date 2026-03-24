@@ -56,6 +56,9 @@ employee-pipeline/
 ├── docker-compose.yml          ← spins up Spark + PostgreSQL
 ├── data/
 │   └── employees_raw.csv       ← raw input data (1100 records)
+├── sample_data/
+│   ├── sample_input.csv        ← sample raw records (before cleaning)
+│   └── sample_output.csv       ← sample cleaned records (after cleaning)
 ├── scripts/
 │   ├── generate_data.py        ← how the raw data was created
 │   ├── init_db.sql             ← creates the database tables
@@ -100,6 +103,53 @@ The Python version (`etl_job.py`) is used for running since it requires no compi
 | age | calculated from birth_date |
 | tenure_years | years at company |
 | salary_band | Junior / Mid / Senior |
+
+---
+
+## Sample Input and Output Data
+
+Sample files are available in the `sample_data/` folder.
+
+### Sample Input (`sample_data/sample_input.csv`)
+
+Raw data with intentional quality issues:
+
+```
+employee_id,first_name,last_name,email,hire_date,job_title,department,salary,manager_id,address,city,state,zip_code,birth_date,status
+1001,john,DOE,John.Doe@company.com,2020-01-15,Software Engineer,IT,"$75,000",2001,123 Main St,New York,NY,10001,1990-05-15,Active
+1002,jane,smith,jane.smith@COMPANY.COM,2019-03-20,Data Analyst,Analytics,65000,2002,456 Oak Ave,Los Angeles,CA,90210,1988-08-22,active
+1003,Bob,johnson,bob@company,2028-01-01,Manager,IT,"$95,000",,789 Pine Rd,Chicago,IL,60601,1985-12-10,ACTIVE
+1004,ALICE,BROWN,,2021-06-10,HR Executive,HR,"$45,000",2001,321 Elm St,Houston,TX,77001,1993-02-28,Active
+1001,john,DOE,John.Doe@company.com,2020-01-15,Software Engineer,IT,"$75,000",2001,123 Main St,New York,NY,10001,1990-05-15,Active
+```
+
+Issues visible in sample input:
+- Row 1001 appears twice (duplicate)
+- Row 1002 has uppercase email domain
+- Row 1003 has an invalid email and a future hire date (2028)
+- Row 1004 has a missing email and ALL CAPS name
+- Salary values contain `$` symbols and commas
+
+---
+
+### Sample Output (`sample_data/sample_output.csv`)
+
+Cleaned and enriched data after Spark processing:
+
+```
+employee_id,first_name,last_name,full_name,email,email_domain,hire_date,job_title,department,salary,salary_band,manager_id,address,city,state,zip_code,birth_date,age,tenure_years,status
+1001,John,Doe,John Doe,john.doe@company.com,company.com,2020-01-15,Software Engineer,IT,75000.00,Mid,2001,123 Main St,New York,NY,10001,1990-05-15,34,5.2,Active
+1002,Jane,Smith,Jane Smith,jane.smith@company.com,company.com,2019-03-20,Data Analyst,Analytics,65000.00,Mid,2002,456 Oak Ave,Los Angeles,CA,90210,1988-08-22,36,6.9,Active
+```
+
+What changed after cleaning:
+- Duplicate record 1001 removed
+- Emails converted to lowercase
+- Salary symbols stripped and converted to numeric
+- Names converted to proper case
+- full_name, email_domain, age, tenure_years, salary_band columns added
+- Status normalized to proper case
+- Rows 1003 and 1004 moved to `employees_rejected` table due to invalid email and future hire date
 
 ---
 
