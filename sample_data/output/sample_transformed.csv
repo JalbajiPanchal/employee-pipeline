@@ -1,0 +1,9 @@
+employee_id,first_name,last_name,email,department,salary,hire_date,manager_id,status,full_name,salary_band,experience_years,processed_at,is_valid
+E001,Rahul,Sharma,rahul.sharma@company.com,Engineering,75000,2021-06-15,M001,active,Rahul Sharma,Mid,4,2026-03-24 10:00:00,true
+E002,Priya,Mehta,unknown@company.com,HR,55000,2020-03-10,M002,active,Priya Mehta,Junior,6,2026-03-24 10:00:00,true
+E004,Sneha,Patil,sneha.patil@company.com,Engineering,80000,2022-01-05,M001,active,Sneha Patil,Mid,4,2026-03-24 10:00:00,true
+E005,Ravi,Kumar,unknown@company.com,Marketing,48000,2021-08-30,M004,active,Ravi Kumar,Junior,4,2026-03-24 10:00:00,true
+E006,Anita,Joshi,anita.joshi@company.com,Finance,50000,2020-07-14,M003,active,Anita Joshi,Junior,5,2026-03-24 10:00:00,true
+E007,Vikram,Singh,vikram.singh@company.com,Engineering,90000,2018-04-25,M001,active,Vikram Singh,Senior,7,2026-03-24 10:00:00,true
+E009,Nikhil,Gupta,unknown@company.com,Engineering,50000,2022-09-01,M001,active,Nikhil Gupta,Junior,3,2026-03-24 10:00:00,true
+E010,Kavita,Nair,kavita.nair@company.com,Marketing,46000,2021-12-11,M004,active,Kavita Nair,Junior,4,2026-03-24 10:00:00,true

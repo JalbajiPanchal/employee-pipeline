@@ -1,0 +1,11 @@
+employee_id,first_name,last_name,email,department,salary,hire_date,manager_id,status
+E001,Rahul,Sharma,rahul.sharma@company.com,Engineering,75000,2021-06-15,M001,active
+E002,Priya,Mehta,,HR,55000,2020-03-10,M002,active
+E003,Amit,Verma,amit.verma@company.com,Finance,62000,2019-11-20,M003,inactive
+E004,Sneha,Patil,sneha.patil@company.com,Engineering,80000,2022-01-05,M001,active
+E005,Ravi,Kumar,,Marketing,48000,2021-08-30,M004,active
+E006,Anita,Joshi,anita.joshi@company.com,Finance,NULL,2020-07-14,M003,active
+E007,Vikram,Singh,vikram.singh@company.com,Engineering,90000,2018-04-25,M001,active
+E008,Pooja,Desai,pooja.desai@company.com,HR,52000,2023-02-18,M002,inactive
+E009,Nikhil,Gupta,,Engineering,NULL,2022-09-01,M001,active
+E010,Kavita,Nair,kavita.nair@company.com,Marketing,46000,2021-12-11,M004,active
